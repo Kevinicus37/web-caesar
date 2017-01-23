@@ -18,12 +18,18 @@ import webapp2
 import caesar
 
 
-form="""<textarea name="text">%(text)s</textarea>"""
+form="""form method="post"<textarea name="text">%(text)s</textarea>
+        <input type="submit">"""
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         message = "blahblah"
-        self.response.write(caesar.encrypt(message, 13))
+        encrypted_message = caesar.encrypt(message, 13)
+
+        textarea="<textarea>" + encrypted_message + "</textarea>"
+        submit = "<input type='submit' />"
+        form = "<form>" + textarea + "<br>" + submit +"</form>"
+        self.response.write(form)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
